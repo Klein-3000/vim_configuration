@@ -45,7 +45,7 @@ set cursorline
 "END:
 
 "START:键盘映射
-imap jj <esc> 
+inoremap jj <esc> 
 
 "窗口切换
 noremap <leader>h <c-w><c-h>
@@ -72,7 +72,6 @@ inoremap [ []<esc>i
 inoremap ( ()<esc>i
 "END:
 
-
 "START:terminal与normal模式的切换
 " 或者使用更简单的组合键（如 F5）
 tnoremap <silent> <F5> <C-\><C-n>  " 终端模式 → 普通模式
@@ -91,9 +90,69 @@ nnoremap <leader>q :q<cr>
 nnoremap <leader>S :wq<cr> 
 nnoremap <leader>; :
 nnoremap <c-s> :so %<cr>
+nnoremap <leader>b i #!/bin/bash
 " END:
-
 "gf和gF查找文件的能力
 
 "set path+=**
 
+"START:解决正常模式下中文输入的问题
+"移动
+nnoremap <c-h>   h
+nnoremap <c-j>   j
+nnoremap <c-k>   k
+nnoremap <c-l>   l
+nnoremap <c-g>   gg
+nnoremap <c-n>   G
+"操作
+nnoremap <c-w>   :w<cr>
+nnoremap <c-q>   :q<cr>
+nnoremap <c-f>   :
+"END:
+
+"START:vimdiff快捷键跳转
+nnoremap <c-[> [c
+nnoremap <c-]> ]c
+"END:
+
+"START: 设置C语言快捷键
+" 定义快捷键 <leader>c 用于插入 #include <stdio.h> 和一个空行，并确保光标位于空行上，同时删除上方的空行
+nnoremap <leader>c :call InsertStdioHeader()<CR>
+
+function! InsertStdioHeader()
+  " 获取当前行号
+  let current_line = line('.')
+
+  " 插入 #include <stdio.h> 和一个空行
+  call append(current_line, ['#include <stdio.h>', ''])
+
+  " 删除 #include <stdio.h> 上方的空行（如果存在）
+  if getline(current_line) =~ '^\s*$'
+    execute current_line . "delete"
+  endif
+
+  " 计算需要移动到的行号（即 #include <stdio.h> 下面的空行）
+  let target_line = current_line + 2
+
+  " 移动光标到指定位置并进入正常模式
+  execute "normal! " . target_line . "G"
+endfunction
+
+" 定义快捷键 <leader>i 用于插入 main 函数模板并定位光标
+nnoremap <leader>i :call InsertMainFunction()<CR>
+
+function! InsertMainFunction()
+  " 获取当前行号
+  let current_line = line('.')
+
+  " 插入 main 函数模板
+  call append(current_line, ['int main(){', '    ', '    return 0;', '}'])
+
+  " 计算需要移动到的行号和列号
+  let target_line = current_line + 2
+  let target_col = 5
+
+  " 移动光标到指定位置
+  execute "normal! " . target_line . "G" . "i"
+endfunction
+"END:
