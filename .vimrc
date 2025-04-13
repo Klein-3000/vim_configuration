@@ -16,12 +16,12 @@ set foldmarker=START:,END:
 " END:
 
 " START: 使用vim-plug管理插件
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.vim/plugged')  
 "最近打开的文件
 Plug 'mhinz/vim-startify'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-thems'
-Plug 'yggdroot/indentline'
+Plug 'yggdroot/indentline'  
 "plug 'scrooloose/nerdtree'
 call plug#end()
 " END:
@@ -33,7 +33,7 @@ set number
 set relativenumber
 "END:
 
-"START:高亮
+"START:
 "设置语法高亮 相反值 off
 syntax on
 "设置搜索高亮
@@ -42,6 +42,8 @@ set incsearch "边输入,边高亮匹配的字符
 
 "设置光标所在行显示下划线
 set cursorline
+"取消高亮
+nnoremap <leader>nh :nohl<cr>  
 "END:
 
 "START:键盘映射
